@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UpdateAvatarService from '@modules/users/services/UpdateAvatarService';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 export default class UserAvatarController {
   public async update(request: Request, response: Response): Promise<Response> {
@@ -11,15 +12,6 @@ export default class UserAvatarController {
       avatarFileName: request.file.filename,
     });
 
-    const userWithoutPassword = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-    };
-
-    return response.json(userWithoutPassword);
+    return response.json(classToClass(user));
   }
 }

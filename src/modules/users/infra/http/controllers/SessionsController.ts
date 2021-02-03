@@ -1,6 +1,7 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
+import { classToClass } from 'class-transformer';
 
 export default class SessionsController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -13,15 +14,6 @@ export default class SessionsController {
       password,
     });
 
-    // Com a atualização do TypeScript, isso se faz necessário
-    const userWithoutPassword = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-    };
-
-    return response.json({ userWithoutPassword, token });
+    return response.json({ user: classToClass(user), token });
   }
 }
