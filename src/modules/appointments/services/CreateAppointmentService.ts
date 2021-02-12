@@ -51,6 +51,7 @@ class CreateAppointmentService {
     // confere se  a data passada ja nao esta no array percorrido
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
+      provider_id,
     );
 
     if (findAppointmentInSameDate) {
